@@ -77,7 +77,9 @@ class AlbumView extends Contract.AlbumView implements View.OnClickListener {
 
         this.mToolbar.setOnClickListener(new DoubleClickWrapper(this));
         this.mBtnSwitchFolder.setOnClickListener(this);
-        this.mBtnPreview.setOnClickListener(this);
+        // this.mBtnPreview.setOnClickListener(this);
+        this.mBtnPreview.setCompoundDrawables(null, null, null, null);
+        this.mBtnPreview.setText("Press and hold to preview");
     }
 
     @Override
@@ -198,7 +200,7 @@ class AlbumView extends Contract.AlbumView implements View.OnClickListener {
 
     @Override
     public void setCheckedCount(int count) {
-        mBtnPreview.setText(" (" + count + ")");
+        // mBtnPreview.setText(" (" + count + ")");
     }
 
     @Override

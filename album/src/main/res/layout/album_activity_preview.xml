@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/Album.MatchParent"
+    android:background="@android:color/black">
+
+    <ImageView
+        android:id="@+id/image_view"
+        style="@style/Album.MatchParent"
+        android:scaleType="fitCenter"/>
+
+    <VideoView
+        android:id="@+id/video_view"
+        style="@style/Album.MatchParent"
+        android:layout_gravity="center"/>
+
+    <RelativeLayout
+        style="@style/Album.MatchParent"
+        android:fitsSystemWindows="true">
+
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/app_bar_layout"
+            style="@style/Album.AppBar.General.Transparent">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                style="@style/Album.Toolbar.Dark" />
+        </android.support.design.widget.AppBarLayout>
+    </RelativeLayout>
+
+</FrameLayout>

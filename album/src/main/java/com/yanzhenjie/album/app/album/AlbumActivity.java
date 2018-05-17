@@ -455,31 +455,36 @@ public class AlbumActivity extends BaseActivity implements
 
     @Override
     public void tryPreviewItem(int position) {
-        switch (mChoiceMode) {
-            case Album.MODE_SINGLE: {
-                AlbumFile albumFile = mAlbumFolders.get(mCurrentFolder).getAlbumFiles().get(position);
-//                albumFile.setChecked(true);
-//                mView.notifyItem(position);
-                mCheckedList.add(albumFile);
-                setCheckedCount();
+        PreviewActivity.sAlbumFile = mAlbumFolders.get(mCurrentFolder).getAlbumFiles().get(position);
+        Intent intent = new Intent(this, PreviewActivity.class);
+        intent.putExtras(getIntent());
+        startActivity(intent);
 
-                callbackResult();
-                break;
-            }
-            case Album.MODE_MULTIPLE: {
-                GalleryActivity.sAlbumFiles = mAlbumFolders.get(mCurrentFolder).getAlbumFiles();
-                GalleryActivity.sCheckedCount = mCheckedList.size();
-                GalleryActivity.sCurrentPosition = position;
-                GalleryActivity.sCallback = this;
-                Intent intent = new Intent(this, GalleryActivity.class);
-                intent.putExtras(getIntent());
-                startActivity(intent);
-                break;
-            }
-            default: {
-                throw new AssertionError("This should not be the case.");
-            }
-        }
+//        switch (mChoiceMode) {
+//            case Album.MODE_SINGLE: {
+//                AlbumFile albumFile = mAlbumFolders.get(mCurrentFolder).getAlbumFiles().get(position);
+////                albumFile.setChecked(true);
+////                mView.notifyItem(position);
+//                mCheckedList.add(albumFile);
+//                setCheckedCount();
+//
+//                callbackResult();
+//                break;
+//            }
+//            case Album.MODE_MULTIPLE: {
+//                GalleryActivity.sAlbumFiles = mAlbumFolders.get(mCurrentFolder).getAlbumFiles();
+//                GalleryActivity.sCheckedCount = mCheckedList.size();
+//                GalleryActivity.sCurrentPosition = position;
+//                GalleryActivity.sCallback = this;
+//                Intent intent = new Intent(this, GalleryActivity.class);
+//                intent.putExtras(getIntent());
+//                startActivity(intent);
+//                break;
+//            }
+//            default: {
+//                throw new AssertionError("This should not be the case.");
+//            }
+//        }
     }
 
     @Override

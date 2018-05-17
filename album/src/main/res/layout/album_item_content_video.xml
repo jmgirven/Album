@@ -26,13 +26,13 @@
             android:scaleType="centerCrop" />
 
         <com.yanzhenjie.album.widget.TransferLayout
-            style="@style/Album.WrapContent.Transfer"
+            style="@style/Album.MatchParent"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true">
 
             <android.support.v7.widget.AppCompatCheckBox
                 android:id="@+id/check_box"
-                style="@style/Album.CheckBox.WrapContent" />
+                style="@style/Album.MatchParent"/>
         </com.yanzhenjie.album.widget.TransferLayout>
 
         <TextView

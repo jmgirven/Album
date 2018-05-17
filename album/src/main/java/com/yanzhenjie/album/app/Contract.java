@@ -21,6 +21,7 @@ import android.view.View;
 import android.widget.CompoundButton;
 
 import com.yanzhenjie.album.Album;
+import com.yanzhenjie.album.AlbumFile;
 import com.yanzhenjie.album.AlbumFolder;
 import com.yanzhenjie.album.api.widget.Widget;
 import com.yanzhenjie.album.app.gallery.PreviewAdapter;
@@ -265,6 +266,25 @@ public final class Contract {
          * @param text text.
          */
         public abstract void setCompleteText(String text);
+    }
+
+    public static abstract class PreviewView extends BaseView<BasePresenter> {
+
+        public PreviewView(Activity activity, BasePresenter presenter) {
+            super(activity, presenter);
+        }
+
+        /**
+         * Set some properties of the view.
+         */
+        public abstract void setupViews();
+
+        /**
+         * Bind data.
+         *
+         * @param data data.
+         */
+        public abstract void bindData(AlbumFile data);
     }
 
 }

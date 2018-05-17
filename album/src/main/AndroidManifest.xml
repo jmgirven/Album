@@ -42,6 +42,12 @@
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden" />
 
         <activity
+            android:name=".app.album.PreviewActivity"
+            android:configChanges="orientation|screenSize"
+            android:theme="@style/Album.Theme.Activity"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden" />
+
+        <activity
             android:name=".app.gallery.GalleryActivity"
             android:configChanges="orientation|screenSize"
             android:theme="@style/Album.Theme.Activity"
