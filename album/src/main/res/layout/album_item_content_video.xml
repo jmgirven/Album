@@ -32,7 +32,9 @@
 
             <android.support.v7.widget.AppCompatCheckBox
                 android:id="@+id/check_box"
-                style="@style/Album.MatchParent"/>
+                style="@style/Album.MatchParent"
+                android:button="@null"
+                android:background="@drawable/album_checkbox"/>
         </com.yanzhenjie.album.widget.TransferLayout>
 
         <TextView

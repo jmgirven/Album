@@ -18,11 +18,8 @@ package com.yanzhenjie.album.app.album;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.graphics.drawable.DrawableCompat;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -55,7 +52,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private final boolean hasCamera;
     private final int mChoiceMode;
     private final ColorStateList mSelector;
-    private final Drawable mCheckboxDrawable;
+    private final ColorStateList mCheckboxSelector;
 
     private List<AlbumFile> mAlbumFiles;
 
@@ -68,11 +65,11 @@ public class AlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         this.hasCamera = hasCamera;
         this.mChoiceMode = choiceMode;
         this.mSelector = selector;
-        this.mCheckboxDrawable = getCheckboxDrawable(context, selector);
+        this.mCheckboxSelector = getCheckboxSelector(selector);
     }
 
-    private Drawable getCheckboxDrawable(Context context, ColorStateList selector) {
-        ColorStateList checkboxColorStateList = new ColorStateList(
+    private ColorStateList getCheckboxSelector(ColorStateList selector) {
+        return new ColorStateList(
                 new int[][]{
                         new int[]{android.R.attr.state_checked},
                         new int[]{}
@@ -82,12 +79,6 @@ public class AlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                         Color.TRANSPARENT
                 }
         );
-
-        Drawable d = ContextCompat.getDrawable(context, R.drawable.album_checkbox);
-        Drawable drawable = DrawableCompat.wrap(d).mutate();
-        drawable.setAlpha(150);
-        DrawableCompat.setTintList(drawable, checkboxColorStateList);
-        return drawable;
     }
 
     public void setAlbumFiles(List<AlbumFile> albumFiles) {
@@ -142,12 +133,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                     imageViewHolder.mCheckBox.setVisibility(View.VISIBLE);
                     imageViewHolder.mCheckBox.setSupportButtonTintList(mSelector);
                     imageViewHolder.mCheckBox.setTextColor(mSelector);
-                    imageViewHolder.mCheckBox.setButtonDrawable(null);
-                    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
-                        imageViewHolder.mCheckBox.setBackgroundDrawable(mCheckboxDrawable);
-                    } else {
-                        imageViewHolder.mCheckBox.setBackground(mCheckboxDrawable);
-                    }
+                    ViewCompat.setBackgroundTintList(imageViewHolder.mCheckBox, mCheckboxSelector);
                 } else {
                     imageViewHolder.mCheckBox.setVisibility(View.GONE);
                 }
@@ -162,12 +148,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                     videoViewHolder.mCheckBox.setVisibility(View.VISIBLE);
                     videoViewHolder.mCheckBox.setSupportButtonTintList(mSelector);
                     videoViewHolder.mCheckBox.setTextColor(mSelector);
-                    videoViewHolder.mCheckBox.setButtonDrawable(null);
-                    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
-                        videoViewHolder.mCheckBox.setBackgroundDrawable(mCheckboxDrawable);
-                    } else {
-                        videoViewHolder.mCheckBox.setBackground(mCheckboxDrawable);
-                    }
+                    ViewCompat.setBackgroundTintList(videoViewHolder.mCheckBox, mCheckboxSelector);
                 } else {
                     videoViewHolder.mCheckBox.setVisibility(View.GONE);
                 }
