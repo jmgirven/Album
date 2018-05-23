@@ -32,6 +32,4 @@
 
     <color name="albumSheetBottom">#992B2B2B</color>
     <color name="albumSheetLayer">#EE2B2B2B</color>
-
-    <color name="albumCheckbox">#88FFFFFF</color>
 </resources>

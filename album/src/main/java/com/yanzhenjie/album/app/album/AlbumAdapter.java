@@ -19,12 +19,12 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
-import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -52,7 +52,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private final boolean hasCamera;
     private final int mChoiceMode;
     private final ColorStateList mSelector;
-    private final ColorStateList mCheckboxSelector;
+    private final int mSelectedColour;
 
     private List<AlbumFile> mAlbumFiles;
 
@@ -65,20 +65,8 @@ public class AlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         this.hasCamera = hasCamera;
         this.mChoiceMode = choiceMode;
         this.mSelector = selector;
-        this.mCheckboxSelector = getCheckboxSelector(selector);
-    }
-
-    private ColorStateList getCheckboxSelector(ColorStateList selector) {
-        return new ColorStateList(
-                new int[][]{
-                        new int[]{android.R.attr.state_checked},
-                        new int[]{}
-                },
-                new int[] {
-                        selector.getColorForState(new int[]{android.R.attr.state_checked}, R.color.albumColorPrimary),
-                        Color.TRANSPARENT
-                }
-        );
+        this.mSelectedColour = selector.getColorForState(new int[]{android.R.attr.state_checked},
+                R.color.albumColorPrimary);
     }
 
     public void setAlbumFiles(List<AlbumFile> albumFiles) {
@@ -127,13 +115,19 @@ public class AlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             case TYPE_IMAGE: {
                 ImageHolder imageViewHolder = new ImageHolder(mInflater.inflate(R.layout.album_item_content_image, parent, false),
                         hasCamera,
+                        mSelectedColour,
                         mItemClickListener,
                         mCheckedClickListener);
                 if (mChoiceMode == Album.MODE_MULTIPLE) {
                     imageViewHolder.mCheckBox.setVisibility(View.VISIBLE);
                     imageViewHolder.mCheckBox.setSupportButtonTintList(mSelector);
                     imageViewHolder.mCheckBox.setTextColor(mSelector);
-                    ViewCompat.setBackgroundTintList(imageViewHolder.mCheckBox, mCheckboxSelector);
+                    imageViewHolder.mCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                        @Override
+                        public void onCheckedChanged(CompoundButton compoundButton, boolean selected) {
+                            compoundButton.setBackgroundColor(selected ? mSelectedColour : Color.TRANSPARENT);
+                        }
+                    });
                 } else {
                     imageViewHolder.mCheckBox.setVisibility(View.GONE);
                 }
@@ -142,13 +136,19 @@ public class AlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             case TYPE_VIDEO: {
                 VideoHolder videoViewHolder = new VideoHolder(mInflater.inflate(R.layout.album_item_content_video, parent, false),
                         hasCamera,
+                        mSelectedColour,
                         mItemClickListener,
                         mCheckedClickListener);
                 if (mChoiceMode == Album.MODE_MULTIPLE) {
                     videoViewHolder.mCheckBox.setVisibility(View.VISIBLE);
                     videoViewHolder.mCheckBox.setSupportButtonTintList(mSelector);
                     videoViewHolder.mCheckBox.setTextColor(mSelector);
-                    ViewCompat.setBackgroundTintList(videoViewHolder.mCheckBox, mCheckboxSelector);
+                    videoViewHolder.mCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                        @Override
+                        public void onCheckedChanged(CompoundButton compoundButton, boolean selected) {
+                            compoundButton.setBackgroundColor(selected ? mSelectedColour : Color.TRANSPARENT);
+                        }
+                    });
                 } else {
                     videoViewHolder.mCheckBox.setVisibility(View.GONE);
                 }
@@ -204,6 +204,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private static class ImageHolder extends MediaViewHolder implements View.OnClickListener, View.OnLongClickListener {
 
         private final boolean hasCamera;
+        private final int selectedColor;
 
         private final OnItemClickListener mItemClickListener;
         private final OnCheckedClickListener mCheckedClickListener;
@@ -213,10 +214,11 @@ public class AlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
         private FrameLayout mLayoutLayer;
 
-        ImageHolder(View itemView, boolean hasCamera,
+        ImageHolder(View itemView, boolean hasCamera, int selectedColor,
                     OnItemClickListener itemClickListener, OnCheckedClickListener checkedClickListener) {
             super(itemView);
             this.hasCamera = hasCamera;
+            this.selectedColor = selectedColor;
             this.mItemClickListener = itemClickListener;
             this.mCheckedClickListener = checkedClickListener;
 
@@ -236,6 +238,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         @Override
         public void setData(AlbumFile albumFile) {
             mCheckBox.setChecked(albumFile.isChecked());
+            mCheckBox.setBackgroundColor(albumFile.isChecked() ? selectedColor : Color.TRANSPARENT);
             Album.getAlbumConfig()
                     .getAlbumLoader()
                     .load(mIvImage, albumFile);
@@ -272,6 +275,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private static class VideoHolder extends MediaViewHolder implements View.OnClickListener, View.OnLongClickListener {
 
         private final boolean hasCamera;
+        private final int selectedColor;
 
         private final OnItemClickListener mItemClickListener;
         private final OnCheckedClickListener mCheckedClickListener;
@@ -282,10 +286,11 @@ public class AlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
         private FrameLayout mLayoutLayer;
 
-        VideoHolder(View itemView, boolean hasCamera,
+        VideoHolder(View itemView, boolean hasCamera, int selectedColor,
                     OnItemClickListener itemClickListener, OnCheckedClickListener checkedClickListener) {
             super(itemView);
             this.hasCamera = hasCamera;
+            this.selectedColor = selectedColor;
             this.mItemClickListener = itemClickListener;
             this.mCheckedClickListener = checkedClickListener;
 
@@ -307,6 +312,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         public void setData(AlbumFile albumFile) {
             Album.getAlbumConfig().getAlbumLoader().load(mIvImage, albumFile);
             mCheckBox.setChecked(albumFile.isChecked());
+            mCheckBox.setBackgroundColor(albumFile.isChecked() ? selectedColor : Color.TRANSPARENT);
             mTvDuration.setText(AlbumUtils.convertDuration(albumFile.getDuration()));
 
             mLayoutLayer.setVisibility(albumFile.isDisable() ? View.VISIBLE : View.GONE);

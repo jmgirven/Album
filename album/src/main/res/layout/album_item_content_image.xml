@@ -34,7 +34,8 @@
                 android:id="@+id/check_box"
                 style="@style/Album.MatchParent"
                 android:button="@null"
-                android:background="@drawable/album_checkbox"/>
+                android:background="@android:color/transparent"
+                android:alpha="0.5"/>
         </com.yanzhenjie.album.widget.TransferLayout>
 
     </RelativeLayout>
