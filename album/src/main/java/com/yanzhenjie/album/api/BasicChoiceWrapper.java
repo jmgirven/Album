@@ -17,6 +17,7 @@ package com.yanzhenjie.album.api;
 
 import android.content.Context;
 import android.support.annotation.IntRange;
+import android.view.View;
 
 import com.yanzhenjie.album.Filter;
 
@@ -33,6 +34,8 @@ public abstract class BasicChoiceWrapper<Returner extends BasicChoiceWrapper, Re
     Filter<String> mMimeTypeFilter;
 
     boolean mFilterVisibility = true;
+
+    View mRevealView;
 
     BasicChoiceWrapper(Context context) {
         super(context);
@@ -91,6 +94,16 @@ public abstract class BasicChoiceWrapper<Returner extends BasicChoiceWrapper, Re
      */
     public Returner afterFilterVisibility(boolean visibility) {
         this.mFilterVisibility = visibility;
+        return (Returner) this;
+    }
+
+    /**
+     * Reveal the album from a view.
+     *
+     * @param view View to reveal from
+     */
+    public Returner revealFrom(View view) {
+        this.mRevealView = view;
         return (Returner) this;
     }
 

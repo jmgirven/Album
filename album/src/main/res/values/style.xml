@@ -30,6 +30,11 @@
         <item name="android:textAllCaps">false</item>
     </style>
 
+    <style name="Album.Theme.Activity.TransparentCirc">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
     <style name="Album.Theme.Activity.Transparent">
         <item name="android:windowFrame">@null</item>
         <item name="android:windowIsTranslucent">true</item>

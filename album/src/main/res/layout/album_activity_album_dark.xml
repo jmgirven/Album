@@ -16,6 +16,7 @@
 -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/Album.MatchParent"
+    android:id="@+id/root_layout"
     android:background="@color/albumPageLight">
 
     <android.support.design.widget.AppBarLayout

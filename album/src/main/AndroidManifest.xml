@@ -26,7 +26,7 @@
         <activity
             android:name=".app.album.AlbumActivity"
             android:configChanges="orientation|screenSize"
-            android:theme="@style/Album.Theme.Activity"
+            android:theme="@style/Album.Theme.Activity.TransparentCirc"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden" />
 
         <activity

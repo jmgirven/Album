@@ -15,9 +15,11 @@
  */
 package com.yanzhenjie.album.app.album;
 
+import android.animation.Animator;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
@@ -25,6 +27,9 @@ import android.support.v7.widget.PopupMenu;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewAnimationUtils;
+import android.view.ViewTreeObserver;
+import android.view.animation.AccelerateInterpolator;
 import android.widget.CompoundButton;
 
 import com.yanzhenjie.album.Action;
@@ -88,6 +93,9 @@ public class AlbumActivity extends BaseActivity implements
 
     private boolean mFilterVisibility;
 
+    private int mRevealX = -1;
+    private int mRevealY = -1;
+
     private ArrayList<AlbumFile> mCheckedList;
     private MediaScanner mMediaScanner;
 
@@ -97,6 +105,8 @@ public class AlbumActivity extends BaseActivity implements
     private LoadingDialog mLoadingDialog;
 
     private MediaReadTask mMediaReadTask;
+
+    private View mRootLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,6 +118,30 @@ public class AlbumActivity extends BaseActivity implements
         mView.setTitle(mWidget.getTitle());
         mView.setCompleteDisplay(false);
         mView.setLoadingDisplay(true);
+
+        mRootLayout = findViewById(R.id.root_layout);
+        if (savedInstanceState == null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP &&
+                mRevealX >= 0 && mRevealY >= 0) {
+            mRootLayout.setVisibility(View.INVISIBLE);
+
+            ViewTreeObserver viewTreeObserver = mRootLayout.getViewTreeObserver();
+            if (viewTreeObserver.isAlive()) {
+                viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                    @Override
+                    public void onGlobalLayout() {
+                        revealActivity(mRevealX, mRevealY);
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                            mRootLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                        } else {
+                            mRootLayout.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                        }
+                    }
+                });
+            }
+
+        } else {
+            mRootLayout.setVisibility(View.VISIBLE);
+        }
 
         requestPermission(PERMISSION_STORAGE, CODE_PERMISSION_STORAGE);
     }
@@ -126,6 +160,8 @@ public class AlbumActivity extends BaseActivity implements
         mLimitDuration = argument.getLong(Album.KEY_INPUT_CAMERA_DURATION);
         mLimitBytes = argument.getLong(Album.KEY_INPUT_CAMERA_BYTES);
         mFilterVisibility = argument.getBoolean(Album.KEY_INPUT_FILTER_VISIBILITY);
+        mRevealX = argument.getInt(Album.EXTRA_CIRCULAR_REVEAL_X, -1);
+        mRevealY = argument.getInt(Album.EXTRA_CIRCULAR_REVEAL_Y, -1);
     }
 
     /**
@@ -144,6 +180,21 @@ public class AlbumActivity extends BaseActivity implements
             default: {
                 throw new AssertionError("This should not be the case.");
             }
+        }
+    }
+
+    protected void revealActivity(int x, int y) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            float finalRadius = (float) (Math.max(mRootLayout.getWidth(), mRootLayout.getHeight()) * 1.1);
+
+            // create the animator for this view (the start radius is zero)
+            Animator circularReveal = ViewAnimationUtils.createCircularReveal(mRootLayout, x, y, 0, finalRadius);
+            circularReveal.setDuration(700);
+            circularReveal.setInterpolator(new AccelerateInterpolator());
+
+            // make the view visible and start the animation
+            mRootLayout.setVisibility(View.VISIBLE);
+            circularReveal.start();
         }
     }
 

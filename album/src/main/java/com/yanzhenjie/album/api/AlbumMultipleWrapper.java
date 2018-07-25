@@ -15,9 +15,12 @@
  */
 package com.yanzhenjie.album.api;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.IntRange;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 
 import com.yanzhenjie.album.Album;
 import com.yanzhenjie.album.AlbumFile;
@@ -90,6 +93,20 @@ public class AlbumMultipleWrapper extends BasicChoiceAlbumWrapper<AlbumMultipleW
         intent.putExtra(Album.KEY_INPUT_CAMERA_QUALITY, mQuality);
         intent.putExtra(Album.KEY_INPUT_CAMERA_DURATION, mLimitDuration);
         intent.putExtra(Album.KEY_INPUT_CAMERA_BYTES, mLimitBytes);
-        mContext.startActivity(intent);
+
+        if (mRevealView != null) {
+            ActivityOptionsCompat options = ActivityOptionsCompat.
+                    makeSceneTransitionAnimation((Activity) mContext, mRevealView, "albumRevealTransition");
+
+            int revealX = (int) (mRevealView.getX() + mRevealView.getWidth() / 2);
+            int revealY = (int) (mRevealView.getY() + mRevealView.getHeight() / 2);
+
+            intent.putExtra(Album.EXTRA_CIRCULAR_REVEAL_X, revealX);
+            intent.putExtra(Album.EXTRA_CIRCULAR_REVEAL_Y, revealY);
+
+            ActivityCompat.startActivity(mContext, intent, options.toBundle());
+        } else {
+            mContext.startActivity(intent);
+        }
     }
 }
