@@ -17,6 +17,7 @@
 <resources>
     <color name="albumColorPrimary">#2196F3</color>
     <color name="albumColorPrimaryDark">#1E88E5</color>
+    <color name="albumColorPrimaryAccent">#009BDE</color>
     <color name="albumColorPrimaryBlack">#2B2B2B</color>
 
     <color name="albumPageLight">#FFF</color>

@@ -26,6 +26,7 @@ import com.yanzhenjie.album.Filter;
 public abstract class BasicChoiceWrapper<Returner extends BasicChoiceWrapper, Result, Cancel, Checked> extends BasicAlbumWrapper<Returner, Result, Cancel, Checked> {
 
     boolean mHasCamera = true;
+    boolean mHasGoPro = true;
     int mColumnCount = 2;
 
     Filter<Long> mSizeFilter;
@@ -42,6 +43,14 @@ public abstract class BasicChoiceWrapper<Returner extends BasicChoiceWrapper, Re
      */
     public Returner camera(boolean hasCamera) {
         this.mHasCamera = hasCamera;
+        return (Returner) this;
+    }
+
+    /**
+     * Turn on the GoPro function.
+     */
+    public Returner goPro(boolean hasGoPro) {
+        this.mHasGoPro = hasGoPro;
         return (Returner) this;
     }
 

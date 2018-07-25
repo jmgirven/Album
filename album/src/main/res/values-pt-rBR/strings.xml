@@ -27,6 +27,7 @@
     <string name="album_camera_video_capture">Gravação vídeo</string>
 
     <string name="album_title">Álbum Mídia</string>
+    <string name="album_gopro">GoPro</string>
     <string name="album_all_images">Todas Imagens</string>
     <string name="album_all_videos">Todos Vídeos</string>
     <string name="album_all_images_videos">Todas Imagens/Vídeos</string>

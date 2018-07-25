@@ -66,6 +66,7 @@ public final class Album {
     public static final int MODE_SINGLE = 2;
     public static final String KEY_INPUT_COLUMN_COUNT = "KEY_INPUT_COLUMN_COUNT";
     public static final String KEY_INPUT_ALLOW_CAMERA = "KEY_INPUT_ALLOW_CAMERA";
+    public static final String KEY_INPUT_ALLOW_GOPRO = "KEY_INPUT_ALLOW_GOPRO";
     public static final String KEY_INPUT_LIMIT_COUNT = "KEY_INPUT_LIMIT_COUNT";
 
     // Gallery.

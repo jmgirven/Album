@@ -46,6 +46,11 @@ public final class Contract {
         void clickCamera(View v);
 
         /**
+         * Click camera.
+         */
+        void clickGoPro(View v);
+
+        /**
          * Try to check item.
          *
          * @param button   view.
@@ -84,11 +89,12 @@ public final class Contract {
          * @param widget     {@link Widget}.
          * @param column     the count of columns.
          * @param hasCamera  the camera is enabled.
+         * @param hasGoPro   GoPro is enabled.
          * @param choiceMode choice mode, one of {@link Album#FUNCTION_CHOICE_ALBUM},
          *                   {@link Album#FUNCTION_CHOICE_IMAGE}
          *                   or {@link Album#FUNCTION_CHOICE_VIDEO}.
          */
-        public abstract void setupViews(Widget widget, int column, boolean hasCamera, int choiceMode);
+        public abstract void setupViews(Widget widget, int column, boolean hasCamera, boolean hasGoPro, int choiceMode);
 
         /**
          * Set the loading visibility.

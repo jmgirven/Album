@@ -27,6 +27,7 @@
     <string name="album_camera_video_capture">录视频</string>
 
     <string name="album_title">媒体专辑</string>
+    <string name="album_gopro">GoPro</string>
     <string name="album_all_images">所有图片</string>
     <string name="album_all_videos">所有视频</string>
     <string name="album_all_images_videos">所有图片/视频</string>

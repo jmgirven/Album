@@ -97,7 +97,7 @@ class AlbumView extends Contract.AlbumView implements View.OnClickListener {
     }
 
     @Override
-    public void setupViews(Widget widget, int column, boolean hasCamera, int choiceMode) {
+    public void setupViews(Widget widget, int column, boolean hasCamera, boolean hasGoPro, int choiceMode) {
         SystemBar.setNavigationBarColor(mActivity, widget.getNavigationBarColor());
 
         int statusBarColor = widget.getStatusBarColor();
@@ -129,11 +129,17 @@ class AlbumView extends Contract.AlbumView implements View.OnClickListener {
         mRecyclerView.setLayoutManager(mLayoutManager);
         int dividerSize = getResources().getDimensionPixelSize(R.dimen.album_dp_4);
         mRecyclerView.addItemDecoration(new Api21ItemDivider(Color.TRANSPARENT, dividerSize, dividerSize));
-        mAdapter = new AlbumAdapter(getContext(), hasCamera, choiceMode, widget.getMediaItemCheckSelector());
+        mAdapter = new AlbumAdapter(getContext(), hasCamera, hasGoPro, choiceMode, widget.getMediaItemCheckSelector());
         mAdapter.setAddClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 getPresenter().clickCamera(view);
+            }
+        });
+        mAdapter.setGoProClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                getPresenter().clickGoPro(view);
             }
         });
         mAdapter.setCheckedClickListener(new OnCheckedClickListener() {
