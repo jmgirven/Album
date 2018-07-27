@@ -324,39 +324,40 @@ public class AlbumActivity extends BaseActivity implements
             }
             mView.toast(getResources().getQuantityString(messageRes, mLimitCount, mLimitCount));
         } else {
-            switch (mFunction) {
-                case Album.FUNCTION_CHOICE_IMAGE: {
-                    takePicture();
-                    break;
-                }
-                case Album.FUNCTION_CHOICE_VIDEO: {
-                    takeVideo();
-                    break;
-                }
-                case Album.FUNCTION_CHOICE_ALBUM: {
-                    if (mCameraPopupMenu == null) {
-                        mCameraPopupMenu = new PopupMenu(this, v);
-                        mCameraPopupMenu.getMenuInflater().inflate(R.menu.album_menu_item_camera, mCameraPopupMenu.getMenu());
-                        mCameraPopupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                            @Override
-                            public boolean onMenuItemClick(MenuItem item) {
-                                int id = item.getItemId();
-                                if (id == R.id.album_menu_camera_image) {
-                                    takePicture();
-                                } else if (id == R.id.album_menu_camera_video) {
-                                    takeVideo();
-                                }
-                                return true;
-                            }
-                        });
-                    }
-                    mCameraPopupMenu.show();
-                    break;
-                }
-                default: {
-                    throw new AssertionError("This should not be the case.");
-                }
-            }
+            takeVideo();
+//            switch (mFunction) {
+//                case Album.FUNCTION_CHOICE_IMAGE: {
+//                    takePicture();
+//                    break;
+//                }
+//                case Album.FUNCTION_CHOICE_VIDEO: {
+//                    takeVideo();
+//                    break;
+//                }
+//                case Album.FUNCTION_CHOICE_ALBUM: {
+//                    if (mCameraPopupMenu == null) {
+//                        mCameraPopupMenu = new PopupMenu(this, v);
+//                        mCameraPopupMenu.getMenuInflater().inflate(R.menu.album_menu_item_camera, mCameraPopupMenu.getMenu());
+//                        mCameraPopupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+//                            @Override
+//                            public boolean onMenuItemClick(MenuItem item) {
+//                                int id = item.getItemId();
+//                                if (id == R.id.album_menu_camera_image) {
+//                                    takePicture();
+//                                } else if (id == R.id.album_menu_camera_video) {
+//                                    takeVideo();
+//                                }
+//                                return true;
+//                            }
+//                        });
+//                    }
+//                    mCameraPopupMenu.show();
+//                    break;
+//                }
+//                default: {
+//                    throw new AssertionError("This should not be the case.");
+//                }
+//            }
         }
     }
 
