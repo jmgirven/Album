@@ -25,7 +25,6 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.PopupMenu;
 import android.text.TextUtils;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewTreeObserver;
@@ -85,6 +84,7 @@ public class AlbumActivity extends BaseActivity implements
     private int mColumnCount;
     private boolean mHasCamera;
     private boolean mHasGoPro;
+    private boolean mHasOtherFiles;
     private int mLimitCount;
 
     private int mQuality;
@@ -114,7 +114,7 @@ public class AlbumActivity extends BaseActivity implements
         initializeArgument();
         setContentView(createView());
         mView = new AlbumView(this, this);
-        mView.setupViews(mWidget, mColumnCount, mHasCamera, mHasGoPro, mChoiceMode);
+        mView.setupViews(mWidget, mColumnCount, mHasCamera, mHasGoPro, mHasOtherFiles, mChoiceMode);
         mView.setTitle(mWidget.getTitle());
         mView.setCompleteDisplay(false);
         mView.setLoadingDisplay(true);
@@ -155,6 +155,7 @@ public class AlbumActivity extends BaseActivity implements
         mColumnCount = argument.getInt(Album.KEY_INPUT_COLUMN_COUNT);
         mHasCamera = argument.getBoolean(Album.KEY_INPUT_ALLOW_CAMERA);
         mHasGoPro = argument.getBoolean(Album.KEY_INPUT_ALLOW_GOPRO);
+        mHasOtherFiles = argument.getBoolean(Album.KEY_INPUT_ALLOW_OTHER_FILES);
         mLimitCount = argument.getInt(Album.KEY_INPUT_LIMIT_COUNT);
         mQuality = argument.getInt(Album.KEY_INPUT_CAMERA_QUALITY);
         mLimitDuration = argument.getLong(Album.KEY_INPUT_CAMERA_DURATION);
@@ -372,6 +373,17 @@ public class AlbumActivity extends BaseActivity implements
         }
     }
 
+    @Override
+    public void clickOtherFiles(View v) {
+        int hasCheckSize = mCheckedList.size();
+        if (hasCheckSize >= mLimitCount) {
+            int messageRes = R.plurals.album_check_album_limit_camera;
+            mView.toast(getResources().getQuantityString(messageRes, mLimitCount, mLimitCount));
+        } else {
+            openOtherFiles();
+        }
+    }
+
     private void takePicture() {
         String filePath;
         if (mCurrentFolder == 0) {
@@ -407,6 +419,11 @@ public class AlbumActivity extends BaseActivity implements
 
     private void openGoPro() {
         if (sCancel != null) sCancel.onAction("Open GoPro");
+        finish();
+    }
+
+    private void openOtherFiles() {
+        if (sCancel != null) sCancel.onAction("Open other files");
         finish();
     }
 
@@ -457,7 +474,7 @@ public class AlbumActivity extends BaseActivity implements
             mView.bindAlbumFolder(albumFolder);
         } else {
             albumFiles.add(0, albumFile);
-            mView.notifyItem((mHasCamera ? 1 : 0) + (mHasGoPro ? 1 : 0));
+            mView.notifyItem((mHasCamera ? 1 : 0) + (mHasGoPro ? 1 : 0) + (mHasOtherFiles ? 1 : 0));
         }
 
         mCheckedList.add(albumFile);
@@ -579,7 +596,7 @@ public class AlbumActivity extends BaseActivity implements
     public void onPreviewChanged(AlbumFile albumFile) {
         ArrayList<AlbumFile> albumFiles = mAlbumFolders.get(mCurrentFolder).getAlbumFiles();
         int position = albumFiles.indexOf(albumFile);
-        int notifyPosition = position + (mHasCamera ? 1 : 0) + (mHasGoPro ? 1 : 0);
+        int notifyPosition = position + (mHasCamera ? 1 : 0) + (mHasGoPro ? 1 : 0) + (mHasOtherFiles ? 1 : 0);
         mView.notifyItem(notifyPosition);
 
         if (albumFile.isChecked()) {

@@ -48,10 +48,12 @@ public class AlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private static final int TYPE_IMAGE = 2;
     private static final int TYPE_VIDEO = 3;
     private static final int TYPE_GOPRO = 4;
+    private static final int TYPE_OTHER_FILES = 5;
 
     private final LayoutInflater mInflater;
     private final boolean hasCamera;
     private final boolean hasGoPro;
+    private final boolean hasOtherFiles;
     private final int mChoiceMode;
     private final ColorStateList mSelector;
     private final int mSelectedColour;
@@ -60,13 +62,16 @@ public class AlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     private OnItemClickListener mAddPhotoClickListener;
     private OnItemClickListener mAddGoProClickListener;
+    private OnItemClickListener mAddOtherFilesClickListener;
     private OnItemClickListener mItemClickListener;
     private OnCheckedClickListener mCheckedClickListener;
 
-    public AlbumAdapter(Context context, boolean hasCamera, boolean hasGoPro, int choiceMode, ColorStateList selector) {
+    public AlbumAdapter(Context context, boolean hasCamera, boolean hasGoPro, boolean hasOtherFiles,
+                        int choiceMode, ColorStateList selector) {
         this.mInflater = LayoutInflater.from(context);
         this.hasCamera = hasCamera;
         this.hasGoPro = hasGoPro;
+        this.hasOtherFiles = hasOtherFiles;
         this.mChoiceMode = choiceMode;
         this.mSelector = selector;
         this.mSelectedColour = selector.getColorForState(new int[]{android.R.attr.state_checked},
@@ -85,6 +90,10 @@ public class AlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         this.mAddGoProClickListener = addGoProClickListener;
     }
 
+    public void setOtherFilesClickListener(OnItemClickListener addOtherFilesClickListener) {
+        this.mAddOtherFilesClickListener = addOtherFilesClickListener;
+    }
+
     public void setItemClickListener(OnItemClickListener itemClickListener) {
         this.mItemClickListener = itemClickListener;
     }
@@ -94,7 +103,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     }
 
     private int cameraCount() {
-        return (hasCamera ? 1 : 0) + (hasGoPro ? 1 : 0);
+        return (hasCamera ? 1 : 0) + (hasGoPro ? 1 : 0) + (hasOtherFiles ? 1 : 0);
     }
 
     @Override
@@ -105,14 +114,16 @@ public class AlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public int getItemViewType(int position) {
-        if (hasCamera && hasGoPro) {
+        if (hasCamera && hasGoPro && hasOtherFiles) {
             switch (position) {
                 case 0:
                     return TYPE_BUTTON;
                 case 1:
                     return TYPE_GOPRO;
+                case 2:
+                    return TYPE_OTHER_FILES;
                 default:
-                    AlbumFile albumFile = mAlbumFiles.get(position - 2);
+                    AlbumFile albumFile = mAlbumFiles.get(position - 3);
                     return albumFile.getMediaType() == AlbumFile.TYPE_VIDEO ? TYPE_VIDEO : TYPE_IMAGE;
             }
         }
@@ -141,10 +152,14 @@ public class AlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             case TYPE_GOPRO: {
                 return new GoProViewHolder(mInflater.inflate(R.layout.album_item_content_gopro, parent, false), mAddGoProClickListener);
             }
+            case TYPE_OTHER_FILES: {
+                return new OtherFilesViewHolder(mInflater.inflate(R.layout.album_item_content_other_files, parent, false), mAddOtherFilesClickListener);
+            }
             case TYPE_IMAGE: {
                 ImageHolder imageViewHolder = new ImageHolder(mInflater.inflate(R.layout.album_item_content_image, parent, false),
                         hasCamera,
                         hasGoPro,
+                        hasOtherFiles,
                         mSelectedColour,
                         mItemClickListener,
                         mCheckedClickListener);
@@ -167,6 +182,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 VideoHolder videoViewHolder = new VideoHolder(mInflater.inflate(R.layout.album_item_content_video, parent, false),
                         hasCamera,
                         hasGoPro,
+                        hasOtherFiles,
                         mSelectedColour,
                         mItemClickListener,
                         mCheckedClickListener);
@@ -195,7 +211,8 @@ public class AlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         switch (getItemViewType(position)) {
             case TYPE_BUTTON:
-            case TYPE_GOPRO: {
+            case TYPE_GOPRO:
+            case TYPE_OTHER_FILES: {
                 // Nothing.
                 break;
             }
@@ -252,10 +269,30 @@ public class AlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         }
     }
 
+    private static class OtherFilesViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+        private final OnItemClickListener mItemClickListener;
+
+        OtherFilesViewHolder(View itemView, OnItemClickListener itemClickListener) {
+            super(itemView);
+            this.mItemClickListener = itemClickListener;
+
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            if (mItemClickListener != null && v == itemView) {
+                mItemClickListener.onItemClick(v, 0);
+            }
+        }
+    }
+
     private static class ImageHolder extends MediaViewHolder implements View.OnClickListener, View.OnLongClickListener {
 
         private final boolean hasCamera;
         private final boolean hasGoPro;
+        private final boolean hasOtherFiles;
         private final int selectedColor;
 
         private final OnItemClickListener mItemClickListener;
@@ -266,11 +303,12 @@ public class AlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
         private FrameLayout mLayoutLayer;
 
-        ImageHolder(View itemView, boolean hasCamera, boolean hasGoPro, int selectedColor,
+        ImageHolder(View itemView, boolean hasCamera, boolean hasGoPro, boolean hasOtherFiles, int selectedColor,
                     OnItemClickListener itemClickListener, OnCheckedClickListener checkedClickListener) {
             super(itemView);
             this.hasCamera = hasCamera;
             this.hasGoPro = hasGoPro;
+            this.hasOtherFiles = hasOtherFiles;
             this.selectedColor = selectedColor;
             this.mItemClickListener = itemClickListener;
             this.mCheckedClickListener = checkedClickListener;
@@ -325,7 +363,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         }
 
         private int cameraCount() {
-            return (hasCamera ? 1 : 0) + (hasGoPro ? 1 : 0);
+            return (hasCamera ? 1 : 0) + (hasGoPro ? 1 : 0) + (hasOtherFiles ? 1 : 0);
         }
     }
 
@@ -333,6 +371,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
         private final boolean hasCamera;
         private final boolean hasGoPro;
+        private final boolean hasOtherFiles;
         private final int selectedColor;
 
         private final OnItemClickListener mItemClickListener;
@@ -344,11 +383,12 @@ public class AlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
         private FrameLayout mLayoutLayer;
 
-        VideoHolder(View itemView, boolean hasCamera, boolean hasGoPro, int selectedColor,
+        VideoHolder(View itemView, boolean hasCamera, boolean hasGoPro, boolean hasOtherFiles, int selectedColor,
                     OnItemClickListener itemClickListener, OnCheckedClickListener checkedClickListener) {
             super(itemView);
             this.hasCamera = hasCamera;
             this.hasGoPro = hasGoPro;
+            this.hasOtherFiles = hasOtherFiles;
             this.selectedColor = selectedColor;
             this.mItemClickListener = itemClickListener;
             this.mCheckedClickListener = checkedClickListener;
@@ -408,7 +448,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         }
 
         private int cameraCount() {
-            return (hasCamera ? 1 : 0) + (hasGoPro ? 1 : 0);
+            return (hasCamera ? 1 : 0) + (hasGoPro ? 1 : 0) + (hasOtherFiles ? 1 : 0);
         }
     }
 

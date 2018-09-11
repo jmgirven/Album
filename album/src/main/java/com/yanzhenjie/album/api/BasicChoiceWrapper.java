@@ -28,6 +28,7 @@ public abstract class BasicChoiceWrapper<Returner extends BasicChoiceWrapper, Re
 
     boolean mHasCamera = true;
     boolean mHasGoPro = true;
+    boolean mHasOtherFiles = true;
     int mColumnCount = 2;
 
     Filter<Long> mSizeFilter;
@@ -54,6 +55,14 @@ public abstract class BasicChoiceWrapper<Returner extends BasicChoiceWrapper, Re
      */
     public Returner goPro(boolean hasGoPro) {
         this.mHasGoPro = hasGoPro;
+        return (Returner) this;
+    }
+
+    /**
+     * Turn on the other files function.
+     */
+    public Returner otherFiles(boolean hasOtherFiles) {
+        this.mHasOtherFiles = hasOtherFiles;
         return (Returner) this;
     }
 

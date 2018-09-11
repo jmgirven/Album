@@ -46,9 +46,14 @@ public final class Contract {
         void clickCamera(View v);
 
         /**
-         * Click camera.
+         * Click GoPro.
          */
         void clickGoPro(View v);
+
+        /**
+         * Click other files.
+         */
+        void clickOtherFiles(View v);
 
         /**
          * Try to check item.
@@ -86,15 +91,17 @@ public final class Contract {
         /**
          * Set some properties of the view.
          *
-         * @param widget     {@link Widget}.
-         * @param column     the count of columns.
-         * @param hasCamera  the camera is enabled.
-         * @param hasGoPro   GoPro is enabled.
-         * @param choiceMode choice mode, one of {@link Album#FUNCTION_CHOICE_ALBUM},
-         *                   {@link Album#FUNCTION_CHOICE_IMAGE}
-         *                   or {@link Album#FUNCTION_CHOICE_VIDEO}.
+         * @param widget        {@link Widget}.
+         * @param column        the count of columns.
+         * @param hasCamera     the camera is enabled.
+         * @param hasGoPro      GoPro is enabled.
+         * @param hasOtherFiles Other files is enabled.
+         * @param choiceMode    choice mode, one of {@link Album#FUNCTION_CHOICE_ALBUM},
+         *                      {@link Album#FUNCTION_CHOICE_IMAGE}
+         *                      or {@link Album#FUNCTION_CHOICE_VIDEO}.
          */
-        public abstract void setupViews(Widget widget, int column, boolean hasCamera, boolean hasGoPro, int choiceMode);
+        public abstract void setupViews(Widget widget, int column, boolean hasCamera,
+                                        boolean hasGoPro, boolean hasOtherFiles, int choiceMode);
 
         /**
          * Set the loading visibility.
