@@ -48,6 +48,10 @@
     <string name="album_permission_camera_image_failed_hint">No Camera permission or Storage permission, please authorize before use.</string>
     <string name="album_permission_camera_video_failed_hint">No Camera permission, Storage permission or Microphone permission, please authorize it before use.</string>
 
+    <string name="album_button_camera" translatable="false">Camera</string>
+    <string name="album_button_gopro" translatable="false">GoPro</string>
+    <string name="album_button_other_files" translatable="false">Drive &amp; More</string>
+
     <plurals name="album_check_image_limit">
         <item quantity="one">You can only select %1$d image item.</item>
         <item quantity="other">You can only select %1$d image items.</item>

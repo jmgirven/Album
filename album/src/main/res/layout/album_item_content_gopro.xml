@@ -17,14 +17,29 @@
 <com.yanzhenjie.album.widget.SquareCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     style="@style/Album.Item.Card.MatchParent"
-    app:cardBackgroundColor="@color/albumColorPrimaryBlack">
+    app:cardBackgroundColor="@color/albumColorPrimaryDark">
 
-    <com.yanzhenjie.album.widget.SquareImageView
-        android:id="@+id/iv_album_content_gopro"
-        style="@style/Album.MatchParent"
-        android:background="?selectableItemBackground"
-        android:contentDescription="@string/album_gopro"
-        android:scaleType="center"
-        android:src="@drawable/album_ic_add_gopro_white" />
+    <LinearLayout
+        style="@style/Album.WrapContent"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:gravity="center_horizontal">
+
+        <com.yanzhenjie.album.widget.SquareImageView
+            android:id="@+id/iv_album_content_gopro"
+            style="@style/Album.WrapContent"
+            android:background="?selectableItemBackground"
+            android:contentDescription="@string/album_gopro"
+            android:scaleType="center"
+            android:src="@drawable/album_ic_add_gopro_white" />
+
+        <TextView
+            style="@style/Album.WrapContent"
+            android:layout_marginTop="@dimen/album_dp_6"
+            android:text="@string/album_button_gopro"
+            android:textColor="@color/albumFontLight"
+            android:textSize="@dimen/album_sp_14"/>
+
+    </LinearLayout>
 
 </com.yanzhenjie.album.widget.SquareCardView>
