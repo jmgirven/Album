@@ -25,6 +25,7 @@ import android.support.v4.app.ActivityOptionsCompat;
 import com.yanzhenjie.album.Album;
 import com.yanzhenjie.album.AlbumFile;
 import com.yanzhenjie.album.Filter;
+import com.yanzhenjie.album.FilterWithReason;
 import com.yanzhenjie.album.app.album.AlbumActivity;
 
 import java.util.ArrayList;
@@ -36,7 +37,7 @@ import java.util.ArrayList;
 public class AlbumMultipleWrapper extends BasicChoiceAlbumWrapper<AlbumMultipleWrapper, ArrayList<AlbumFile>, String, ArrayList<AlbumFile>> {
 
     private int mLimitCount = Integer.MAX_VALUE;
-    private Filter<Long> mDurationFilter;
+    private FilterWithReason<Long> mDurationFilter;
 
     public AlbumMultipleWrapper(Context context) {
         super(context);
@@ -67,7 +68,7 @@ public class AlbumMultipleWrapper extends BasicChoiceAlbumWrapper<AlbumMultipleW
      *
      * @param filter filter.
      */
-    public AlbumMultipleWrapper filterDuration(Filter<Long> filter) {
+    public AlbumMultipleWrapper filterDuration(FilterWithReason<Long> filter) {
         this.mDurationFilter = filter;
         return this;
     }

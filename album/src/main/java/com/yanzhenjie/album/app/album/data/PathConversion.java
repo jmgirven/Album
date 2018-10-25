@@ -22,6 +22,7 @@ import android.text.TextUtils;
 
 import com.yanzhenjie.album.AlbumFile;
 import com.yanzhenjie.album.Filter;
+import com.yanzhenjie.album.FilterWithReason;
 import com.yanzhenjie.album.util.AlbumUtils;
 
 import java.io.File;
@@ -33,9 +34,9 @@ public class PathConversion {
 
     private Filter<Long> mSizeFilter;
     private Filter<String> mMimeFilter;
-    private Filter<Long> mDurationFilter;
+    private FilterWithReason<Long> mDurationFilter;
 
-    public PathConversion(Filter<Long> sizeFilter, Filter<String> mimeFilter, Filter<Long> durationFilter) {
+    public PathConversion(Filter<Long> sizeFilter, Filter<String> mimeFilter, FilterWithReason<Long> durationFilter) {
         this.mSizeFilter = sizeFilter;
         this.mMimeFilter = mimeFilter;
         this.mDurationFilter = durationFilter;
@@ -84,8 +85,11 @@ public class PathConversion {
                 player.release();
             }
 
-            if (mDurationFilter != null && mDurationFilter.filter(albumFile.getDuration())) {
-                albumFile.setDisable(true);
+            if (mDurationFilter != null) {
+                String reason = mDurationFilter.filter(albumFile.getDuration());
+                if (!TextUtils.isEmpty(reason)) {
+                    albumFile.setDisableReason(reason);
+                }
             }
         }
         return albumFile;

@@ -78,11 +78,12 @@
                 android:background="@color/albumSheetLayer">
 
                 <TextView
+                    android:id="@+id/tv_unavailable"
                     style="@style/Album.WrapContent"
                     android:layout_gravity="center"
                     android:text="@string/album_item_unavailable"
                     android:textColor="@color/albumFontLight"
-                    android:textSize="@dimen/album_sp_18"
+                    android:textSize="@dimen/album_sp_14"
                     android:gravity="center" />
             </FrameLayout>
         </FrameLayout>

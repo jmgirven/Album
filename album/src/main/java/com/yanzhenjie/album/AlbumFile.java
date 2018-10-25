@@ -18,6 +18,7 @@ package com.yanzhenjie.album;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.IntDef;
+import android.text.TextUtils;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -80,9 +81,9 @@ public class AlbumFile implements Parcelable, Comparable<AlbumFile> {
      */
     private boolean isChecked;
     /**
-     * Enabled.
+     * Enabled / disabled & reason.
      */
-    private boolean isDisable;
+    private String isDisableReason;
 
     public AlbumFile() {
     }
@@ -204,11 +205,19 @@ public class AlbumFile implements Parcelable, Comparable<AlbumFile> {
     }
 
     public boolean isDisable() {
-        return isDisable;
+        return isDisableReason != null;
+    }
+
+    public String getDisableReason() {
+        return isDisableReason;
+    }
+
+    public void setDisableReason(String disableReason) {
+        this.isDisableReason = disableReason;
     }
 
     public void setDisable(boolean disable) {
-        this.isDisable = disable;
+        this.isDisableReason = disable ? "" : null;
     }
 
     protected AlbumFile(Parcel in) {
@@ -223,7 +232,7 @@ public class AlbumFile implements Parcelable, Comparable<AlbumFile> {
         mThumbPath = in.readString();
         mMediaType = in.readInt();
         isChecked = in.readByte() != 0;
-        isDisable = in.readByte() != 0;
+        isDisableReason = in.readString();
     }
 
     @Override
@@ -239,7 +248,7 @@ public class AlbumFile implements Parcelable, Comparable<AlbumFile> {
         dest.writeString(mThumbPath);
         dest.writeInt(mMediaType);
         dest.writeByte((byte) (isChecked ? 1 : 0));
-        dest.writeByte((byte) (isDisable ? 1 : 0));
+        dest.writeString(isDisableReason);
     }
 
     @Override

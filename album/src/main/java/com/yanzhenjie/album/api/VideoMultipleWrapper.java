@@ -21,7 +21,7 @@ import android.support.annotation.IntRange;
 
 import com.yanzhenjie.album.Album;
 import com.yanzhenjie.album.AlbumFile;
-import com.yanzhenjie.album.Filter;
+import com.yanzhenjie.album.FilterWithReason;
 import com.yanzhenjie.album.app.album.AlbumActivity;
 
 import java.util.ArrayList;
@@ -32,7 +32,7 @@ import java.util.ArrayList;
 public final class VideoMultipleWrapper extends BasicChoiceVideoWrapper<VideoMultipleWrapper, ArrayList<AlbumFile>, String, ArrayList<AlbumFile>> {
 
     private int mLimitCount = Integer.MAX_VALUE;
-    private Filter<Long> mDurationFilter;
+    private FilterWithReason<Long> mDurationFilter;
 
     public VideoMultipleWrapper(Context context) {
         super(context);
@@ -63,7 +63,7 @@ public final class VideoMultipleWrapper extends BasicChoiceVideoWrapper<VideoMul
      *
      * @param filter filter.
      */
-    public VideoMultipleWrapper filterDuration(Filter<Long> filter) {
+    public VideoMultipleWrapper filterDuration(FilterWithReason<Long> filter) {
         this.mDurationFilter = filter;
         return this;
     }

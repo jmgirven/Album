@@ -20,10 +20,12 @@ import android.content.Context;
 import android.database.Cursor;
 import android.provider.MediaStore;
 import android.support.annotation.WorkerThread;
+import android.text.TextUtils;
 
 import com.yanzhenjie.album.AlbumFile;
 import com.yanzhenjie.album.AlbumFolder;
 import com.yanzhenjie.album.Filter;
+import com.yanzhenjie.album.FilterWithReason;
 import com.yanzhenjie.album.R;
 
 import java.util.ArrayList;
@@ -40,10 +42,10 @@ public class MediaReader {
 
     private Filter<Long> mSizeFilter;
     private Filter<String> mMimeFilter;
-    private Filter<Long> mDurationFilter;
+    private FilterWithReason<Long> mDurationFilter;
     private boolean mFilterVisibility;
 
-    public MediaReader(Context context, Filter<Long> sizeFilter, Filter<String> mimeFilter, Filter<Long> durationFilter, boolean filterVisibility) {
+    public MediaReader(Context context, Filter<Long> sizeFilter, Filter<String> mimeFilter, FilterWithReason<Long> durationFilter, boolean filterVisibility) {
         this.mContext = context;
 
         this.mSizeFilter = sizeFilter;
@@ -179,9 +181,12 @@ public class MediaReader {
                     if (!mFilterVisibility) continue;
                     videoFile.setDisable(true);
                 }
-                if (mDurationFilter != null && mDurationFilter.filter(duration)) {
-                    if (!mFilterVisibility) continue;
-                    videoFile.setDisable(true);
+                if (mDurationFilter != null) {
+                    String reason = mDurationFilter.filter(duration);
+                    if (!TextUtils.isEmpty(reason)) {
+                        if (!mFilterVisibility) continue;
+                        videoFile.setDisableReason(reason);
+                    }
                 }
 
                 allFileFolder.addAlbumFile(videoFile);

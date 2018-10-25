@@ -36,6 +36,7 @@ import com.yanzhenjie.album.Album;
 import com.yanzhenjie.album.AlbumFile;
 import com.yanzhenjie.album.AlbumFolder;
 import com.yanzhenjie.album.Filter;
+import com.yanzhenjie.album.FilterWithReason;
 import com.yanzhenjie.album.R;
 import com.yanzhenjie.album.api.widget.Widget;
 import com.yanzhenjie.album.app.Contract;
@@ -70,7 +71,7 @@ public class AlbumActivity extends BaseActivity implements
 
     public static Filter<Long> sSizeFilter;
     public static Filter<String> sMimeFilter;
-    public static Filter<Long> sDurationFilter;
+    public static FilterWithReason<Long> sDurationFilter;
 
     public static Action<ArrayList<AlbumFile>> sResult;
     public static Action<String> sCancel;

@@ -20,7 +20,7 @@ import android.content.Intent;
 
 import com.yanzhenjie.album.Album;
 import com.yanzhenjie.album.AlbumFile;
-import com.yanzhenjie.album.Filter;
+import com.yanzhenjie.album.FilterWithReason;
 import com.yanzhenjie.album.app.album.AlbumActivity;
 
 import java.util.ArrayList;
@@ -30,7 +30,7 @@ import java.util.ArrayList;
  */
 public final class VideoSingleWrapper extends BasicChoiceVideoWrapper<VideoSingleWrapper, ArrayList<AlbumFile>, String, AlbumFile> {
 
-    private Filter<Long> mDurationFilter;
+    private FilterWithReason<Long> mDurationFilter;
 
     public VideoSingleWrapper(Context context) {
         super(context);
@@ -41,7 +41,7 @@ public final class VideoSingleWrapper extends BasicChoiceVideoWrapper<VideoSingl
      *
      * @param filter filter.
      */
-    public VideoSingleWrapper filterDuration(Filter<Long> filter) {
+    public VideoSingleWrapper filterDuration(FilterWithReason<Long> filter) {
         this.mDurationFilter = filter;
         return this;
     }

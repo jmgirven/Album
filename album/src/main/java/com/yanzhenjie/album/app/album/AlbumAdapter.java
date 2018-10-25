@@ -21,6 +21,7 @@ import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -302,6 +303,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         private AppCompatCheckBox mCheckBox;
 
         private FrameLayout mLayoutLayer;
+        private TextView mUnavailableText;
 
         ImageHolder(View itemView, boolean hasCamera, boolean hasGoPro, boolean hasOtherFiles, int selectedColor,
                     OnItemClickListener itemClickListener, OnCheckedClickListener checkedClickListener) {
@@ -316,6 +318,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             mIvImage = itemView.findViewById(R.id.iv_album_content_image);
             mCheckBox = itemView.findViewById(R.id.check_box);
             mLayoutLayer = itemView.findViewById(R.id.layout_layer);
+            mUnavailableText = itemView.findViewById(R.id.tv_unavailable);
 
             itemView.setOnClickListener(this);
             mCheckBox.setOnClickListener(this);
@@ -335,6 +338,11 @@ public class AlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                     .load(mIvImage, albumFile);
 
             mLayoutLayer.setVisibility(albumFile.isDisable() ? View.VISIBLE : View.GONE);
+            if (TextUtils.isEmpty(albumFile.getDisableReason())) {
+                mUnavailableText.setText(R.string.album_item_unavailable);
+            } else {
+                mUnavailableText.setText(albumFile.getDisableReason());
+            }
         }
 
         @Override
@@ -347,11 +355,6 @@ public class AlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             } else if (v == mCheckBox) {
                 int camera = cameraCount();
                 mCheckedClickListener.onCheckedClick(mCheckBox, getAdapterPosition() - camera);
-            } else if (v == mLayoutLayer) {
-                int camera = cameraCount();
-                mCheckBox.setChecked(!mCheckBox.isChecked());
-                mCheckedClickListener.onCheckedClick(mCheckBox, getAdapterPosition() - camera);
-                // mItemClickListener.onItemClick(v, getAdapterPosition() - camera);
             }
         }
 
@@ -382,6 +385,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         private TextView mTvDuration;
 
         private FrameLayout mLayoutLayer;
+        private TextView mUnavailableText;
 
         VideoHolder(View itemView, boolean hasCamera, boolean hasGoPro, boolean hasOtherFiles, int selectedColor,
                     OnItemClickListener itemClickListener, OnCheckedClickListener checkedClickListener) {
@@ -397,6 +401,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             mCheckBox = itemView.findViewById(R.id.check_box);
             mTvDuration = itemView.findViewById(R.id.tv_duration);
             mLayoutLayer = itemView.findViewById(R.id.layout_layer);
+            mUnavailableText = itemView.findViewById(R.id.tv_unavailable);
 
             itemView.setOnClickListener(this);
             mCheckBox.setOnClickListener(this);
@@ -415,6 +420,11 @@ public class AlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             mTvDuration.setText(AlbumUtils.convertDuration(albumFile.getDuration()));
 
             mLayoutLayer.setVisibility(albumFile.isDisable() ? View.VISIBLE : View.GONE);
+            if (TextUtils.isEmpty(albumFile.getDisableReason())) {
+                mUnavailableText.setText(R.string.album_item_unavailable);
+            } else {
+                mUnavailableText.setText(albumFile.getDisableReason());
+            }
         }
 
         @Override
@@ -427,16 +437,6 @@ public class AlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             } else if (v == mCheckBox) {
                 int camera = cameraCount();
                 mCheckedClickListener.onCheckedClick(mCheckBox, getAdapterPosition() - camera);
-            } else if (v == mLayoutLayer) {
-                if (mCheckedClickListener != null) {
-                    int camera = cameraCount();
-                    mCheckBox.setChecked(!mCheckBox.isChecked());
-                    mCheckedClickListener.onCheckedClick(mCheckBox, getAdapterPosition() - camera);
-                }
-//                if (mItemClickListener != null) {
-//                    int camera = cameraCount();
-//                    mItemClickListener.onItemClick(v, getAdapterPosition() - camera);
-//                }
             }
         }
 

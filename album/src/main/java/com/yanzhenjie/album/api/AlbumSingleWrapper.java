@@ -20,7 +20,7 @@ import android.content.Intent;
 
 import com.yanzhenjie.album.Album;
 import com.yanzhenjie.album.AlbumFile;
-import com.yanzhenjie.album.Filter;
+import com.yanzhenjie.album.FilterWithReason;
 import com.yanzhenjie.album.app.album.AlbumActivity;
 
 import java.util.ArrayList;
@@ -31,7 +31,7 @@ import java.util.ArrayList;
  */
 public class AlbumSingleWrapper extends BasicChoiceAlbumWrapper<AlbumSingleWrapper, ArrayList<AlbumFile>, String, AlbumFile> {
 
-    private Filter<Long> mDurationFilter;
+    private FilterWithReason<Long> mDurationFilter;
 
     public AlbumSingleWrapper(Context context) {
         super(context);
@@ -42,7 +42,7 @@ public class AlbumSingleWrapper extends BasicChoiceAlbumWrapper<AlbumSingleWrapp
      *
      * @param filter filter.
      */
-    public AlbumSingleWrapper filterDuration(Filter<Long> filter) {
+    public AlbumSingleWrapper filterDuration(FilterWithReason<Long> filter) {
         this.mDurationFilter = filter;
         return this;
     }
