@@ -32,5 +32,5 @@
     <color name="albumSelectorNormal">#E0E0E0</color>
 
     <color name="albumSheetBottom">#992B2B2B</color>
-    <color name="albumSheetLayer">#EE2B2B2B</color>
+    <color name="albumSheetLayer">#CC2B2B2B</color>
 </resources>

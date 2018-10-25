@@ -74,6 +74,7 @@
             <FrameLayout
                 android:id="@+id/layout_layer"
                 style="@style/Album.MatchParent.SheetBottom"
+                android:padding="@dimen/album_dp_10"
                 android:background="@color/albumSheetLayer">
 
                 <TextView
@@ -81,7 +82,8 @@
                     android:layout_gravity="center"
                     android:text="@string/album_item_unavailable"
                     android:textColor="@color/albumFontLight"
-                    android:textSize="@dimen/album_sp_18" />
+                    android:textSize="@dimen/album_sp_18"
+                    android:gravity="center" />
             </FrameLayout>
         </FrameLayout>
     </RelativeLayout>

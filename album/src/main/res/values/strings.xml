@@ -82,6 +82,6 @@
         <item quantity="other">You can only select %1$d media items, can\'t use camera.</item>
     </plurals>
 
-    <string name="album_item_unavailable">Unavailable</string>
+    <string name="album_item_unavailable">Clip not supported</string>
     <string name="album_take_file_unavailable">Unavailable file, please try again.</string>
 </resources>
